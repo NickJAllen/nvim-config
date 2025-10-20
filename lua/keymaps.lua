@@ -1,6 +1,12 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
+-- Save in insert mode with Ctrl-S
+vim.keymap.set('i', '<C-s>', '<Esc>:write<CR>l')
+
+-- Save in normal mode with Ctrl-S
+vim.keymap.set('n', '<C-s>', ':write<CR>')
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
