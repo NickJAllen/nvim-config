@@ -14,11 +14,7 @@ return {
       vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
 
       -- Use ufo for fold provider
-      ufo.setup {
-        provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
-        end,
-      }
+      ufo.setup()
 
       -- Optional: keymaps for convenience
       vim.keymap.set('n', 'zM', ufo.closeAllFolds, { desc = 'Close all folds' })
