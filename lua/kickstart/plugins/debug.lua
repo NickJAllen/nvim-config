@@ -34,21 +34,28 @@ return {
       desc = 'Debug: Start/Continue',
     },
     {
-      '<F1>',
+      '<F6>',
       function()
-        require('dap').step_into()
+        require('dap').terminate()
       end,
-      desc = 'Debug: Step Into',
+      desc = 'Debug: Terminate',
     },
     {
-      '<F2>',
+      '<F10>',
       function()
         require('dap').step_over()
       end,
       desc = 'Debug: Step Over',
     },
     {
-      '<F3>',
+      '<F11>',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step Into',
+    },
+    {
+      '<F12>',
       function()
         require('dap').step_out()
       end,
