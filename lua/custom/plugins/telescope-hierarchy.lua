@@ -13,6 +13,11 @@ return {
       '<cmd>Telescope hierarchy incoming_calls<cr>',
       desc = 'LSP: [S]earch [I]ncoming Calls',
     },
+    {
+      '<leader>sC',
+      '<cmd>Telescope hierarchy outgoing_calls<cr>',
+      desc = 'LSP: [S]earch outgoing [C]alls',
+    },
   },
   opts = {
     -- don't use `defaults = { }` here, do this in the main telescope spec
