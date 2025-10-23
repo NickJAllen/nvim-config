@@ -59,6 +59,7 @@ return {
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
+      local processed_clients = {}
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -72,11 +73,59 @@ return {
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          local saveAllAndSnapshot = function(reason)
+            print('Saving all files ' .. reason)
+            vim.cmd 'wa'
+            print('Making snapshot in Jujutsu ' .. reason)
+            vim.fn.system 'jj status'
+          end
+
+          local refactor = function(func)
+            return function()
+              saveAllAndSnapshot 'before refactoring'
+              func()
+            end
+          end
+
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if not client then
+            return
+          end
+
+          -- Only run setup if we haven't processed this client yet
+          if not processed_clients[client.id] then
+            processed_clients[client.id] = true -- mark as processed
+
+            -- Your setup logic here, runs once per client
+            print('Setting up client: ' .. client.name)
+
+            local orig_rename_handler = client.handlers['textDocument/rename']
+
+            -- Example: global keymaps or handlers
+            client.handlers['textDocument/rename'] = function(err, result, ctx, config)
+              if orig_rename_handler then
+                print 'Invoking orig rename handler'
+                orig_rename_handler(err, result, ctx, config)
+              else
+                print 'No orginal rename handler'
+                vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
+              end
+              if err then
+                vim.notify('Rename failed: ' .. err.message, vim.log.levels.ERROR)
+                return
+              end
+              if result then
+                vim.notify 'Rename complete (once-per-client handler)'
+              end
+              saveAllAndSnapshot 'after renaming'
+            end
+          end
+
           map('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
 
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
-          map('grn', vim.lsp.buf.rename, '[R]e[n]ame')
+          map('grn', refactor(vim.lsp.buf.rename), '[R]e[n]ame')
 
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
