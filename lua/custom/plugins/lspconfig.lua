@@ -1,4 +1,6 @@
 -- LSP Plugins
+local nick = require 'nick'
+
 return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
@@ -63,26 +65,14 @@ return {
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
-          -- NOTE: Remember that Lua is a real programming language, and as such it is possible
-          -- to define small helper and utility functions so you don't have to repeat yourself.
-          --
-          -- In this case, we create a function that lets us more easily define mappings specific
-          -- for LSP related items. It sets the mode, buffer and description for us each time.
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
-          local saveAllAndSnapshot = function(reason)
-            print('Saving all files ' .. reason)
-            vim.cmd 'wa'
-            print('Making snapshot in Jujutsu ' .. reason)
-            vim.fn.system 'jj status'
-          end
-
           local refactor = function(func)
             return function()
-              saveAllAndSnapshot 'before refactoring'
+              nick.utils.save_snapshot()
               func()
             end
           end
@@ -97,27 +87,26 @@ return {
             processed_clients[client.id] = true -- mark as processed
 
             -- Your setup logic here, runs once per client
-            print('Setting up client: ' .. client.name)
+            print('Setting up LSP client handlers to make snapshots after refactoring: ' .. client.name)
 
             local orig_rename_handler = client.handlers['textDocument/rename']
 
             -- Example: global keymaps or handlers
             client.handlers['textDocument/rename'] = function(err, result, ctx, config)
               if orig_rename_handler then
-                print 'Invoking orig rename handler'
                 orig_rename_handler(err, result, ctx, config)
               else
-                print 'No orginal rename handler'
+                if err then
+                  vim.notify('Rename failed: ' .. err.message, vim.log.levels.ERROR)
+                  return
+                end
+
                 vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
+
+                vim.notify 'Rename completed successfully'
               end
-              if err then
-                vim.notify('Rename failed: ' .. err.message, vim.log.levels.ERROR)
-                return
-              end
-              if result then
-                vim.notify 'Rename complete (once-per-client handler)'
-              end
-              saveAllAndSnapshot 'after renaming'
+
+              nick.utils.save_snapshot()
             end
           end
 
