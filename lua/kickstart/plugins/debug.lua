@@ -157,5 +157,14 @@ return {
         detached = vim.fn.has 'win32' == 0,
       },
     }
+
+    dap.adapters.codelldb = {
+      type = 'server',
+      port = '${port}',
+      executable = {
+        command = 'codelldb',
+        args = { '--port', '${port}' },
+      },
+    }
   end,
 }
