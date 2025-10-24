@@ -23,3 +23,4 @@ require 'lazy-plugins'
 -- vim: ts=2 sts=2 sw=2 et
 
 vim.lsp.enable 'jdtls'
+vim.lsp.enable 'clangd'
