@@ -7,6 +7,7 @@ return {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
+    input = {},
   },
   keys = {
     -- Top Pickers & Explorer
@@ -387,6 +388,13 @@ return {
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = 'LSP Workspace Symbols',
+    },
+    {
+      '<leader>st',
+      function()
+        Snacks.picker.colorschemes()
+      end,
+      desc = 'Color Themes',
     },
   },
 }
