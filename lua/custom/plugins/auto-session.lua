@@ -1,3 +1,4 @@
+-- Session manager - remembers open files and windows and restores them
 return {
   'rmagatti/auto-session',
   lazy = false,

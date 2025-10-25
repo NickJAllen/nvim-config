@@ -1,3 +1,4 @@
+-- Better folding based on tree sitter that looks much nicer than normal foldns
 return {
   {
     'kevinhwang91/nvim-ufo',

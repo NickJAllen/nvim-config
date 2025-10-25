@@ -1,3 +1,5 @@
+-- Makes it easier to manage global marks by assigning the A-Z mark name automatically
+-- and allowing navigation through the global marks (next and prev)
 return {
   {
     'fnune/recall.nvim',
