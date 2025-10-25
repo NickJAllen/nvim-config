@@ -375,14 +375,14 @@ return {
       desc = 'C[a]lls Outgoing',
     },
     {
-      '<leader>ss',
+      '<leader>so',
       function()
         Snacks.picker.lsp_symbols()
       end,
-      desc = 'LSP Symbols',
+      desc = 'Outline',
     },
     {
-      '<leader>sS',
+      '<leader>ss',
       function()
         Snacks.picker.lsp_workspace_symbols()
       end,
