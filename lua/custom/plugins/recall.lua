@@ -27,7 +27,7 @@ return {
       vim.keymap.set('n', 'mn', recall.goto_next, { noremap = true, silent = true })
       vim.keymap.set('n', 'mp', recall.goto_prev, { noremap = true, silent = true })
       vim.keymap.set('n', 'mc', recall.clear, { noremap = true, silent = true })
-      vim.keymap.set('n', 'ml', ':Telescope recall<CR>', { noremap = true, silent = true })
+      vim.keymap.set('n', 'ml', require('recall.snacks').pick, { noremap = true, silent = true })
     end,
   },
 }
