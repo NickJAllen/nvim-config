@@ -35,7 +35,13 @@ vim.api.nvim_create_autocmd('LspRequest', {
 
 -- Make a snapshot in jj after any files are written to disk
 vim.api.nvim_create_autocmd('BufWritePost', {
-  callback = function()
+  callback = function(args)
+    local buf = args.buf
+
+    if vim.bo[buf].buftype ~= '' then
+      return -- skip virtual/scratch/terminal buffers
+    end
+
     if not needs_to_make_snapshot_at_end_of_event then
       needs_to_make_snapshot_at_end_of_event = true
 
