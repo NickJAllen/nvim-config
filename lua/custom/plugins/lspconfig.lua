@@ -71,7 +71,7 @@ return {
 
           local refactor = function(func)
             return function()
-              nick.utils.save_snapshot()
+              nick.utils.save_all()
               func()
             end
           end
