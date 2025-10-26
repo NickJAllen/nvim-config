@@ -1,15 +1,34 @@
 local M = {}
 
-function M.save_all()
-  vim.print 'Saving all files'
-  vim.cmd 'wall'
-end
+local has_scheduled_jj_snapshot = false
 
-function M.jj_snapshot()
+-- Performs a snapshot of the file system status in Jujutsu
+local function make_jj_snapshot_if_needed()
+  if not has_scheduled_jj_snapshot then
+    return
+  end
+
+  has_scheduled_jj_snapshot = false
   vim.print 'Making snapshot using Jujutsu'
   vim.fn.system 'jj status'
 end
+-- Saves all files
+function M.save_all()
+  vim.print 'Saving all files'
+  vim.cmd 'wall'
+  make_jj_snapshot_if_needed()
+end
 
+function M.jj_snapshot()
+  if has_scheduled_jj_snapshot then
+    return
+  end
+
+  has_scheduled_jj_snapshot = true
+  vim.defer_fn(make_jj_snapshot_if_needed, 100)
+end
+
+-- Reloads any files from disk that haven't been modified in neovim
 function M.reload_unmodified_buffers()
   for _, buf in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(buf) then
