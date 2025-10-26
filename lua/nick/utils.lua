@@ -1,31 +1,40 @@
 local M = {}
 
-local has_scheduled_jj_snapshot = false
+local jj_snapshot_timer = vim.uv.new_timer()
 
--- Performs a snapshot of the file system status in Jujutsu
-local function make_jj_snapshot_if_needed()
-  if not has_scheduled_jj_snapshot then
-    return
+local function make_jj_snapshot()
+  if jj_snapshot_timer:is_active() then
+    jj_snapshot_timer:stop()
   end
 
-  has_scheduled_jj_snapshot = false
   vim.print 'Making snapshot using Jujutsu'
   vim.fn.system 'jj status'
 end
+
 -- Saves all files
 function M.save_all()
   vim.print 'Saving all files'
   vim.cmd 'wall'
-  make_jj_snapshot_if_needed()
+  make_jj_snapshot()
 end
 
 function M.jj_snapshot()
-  if has_scheduled_jj_snapshot then
-    return
+  if jj_snapshot_timer:is_active() then
+    jj_snapshot_timer:stop()
   end
 
-  has_scheduled_jj_snapshot = true
-  vim.defer_fn(make_jj_snapshot_if_needed, 100)
+  jj_snapshot_timer:start(100, 0, vim.schedule_wrap(make_jj_snapshot))
+end
+
+function M.before_refactoring()
+  print 'About to perform refactoring'
+  M.save_all()
+end
+
+function M.after_refactoring_complete()
+  print 'Refactoring complete'
+  M.save_all()
+  M.reload_unmodified_buffers()
 end
 
 -- Reloads any files from disk that haven't been modified in neovim

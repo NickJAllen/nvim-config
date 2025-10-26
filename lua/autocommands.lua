@@ -1,8 +1,5 @@
 local nick = require 'nick'
 
--- Used to schedule a snapshot if any files are written
-local needs_to_make_snapshot_at_end_of_event = false
-
 -- Refresh the state of unmodified buffers when focus is gained
 vim.api.nvim_create_autocmd('FocusGained', {
   callback = function()
@@ -21,13 +18,13 @@ vim.api.nvim_create_autocmd('LspRequest', {
       -- request entry is about to be removed since it is complete
       --
 
-      local is_refacting = (request_method == 'textDocument/rename' or request_method == 'textDocument/codeAction')
+      local is_refactoring = (request_method == 'textDocument/rename' or request_method == 'textDocument/codeAction')
 
       -- print('Finished LSP request ' .. request_method)
 
-      if is_refacting then
+      if is_refactoring then
         print 'Finished LSP refactoring'
-        vim.schedule(nick.utils.save_all)
+        vim.schedule(nick.utils.after_refactoring_complete)
       end
     end
   end,
@@ -42,13 +39,6 @@ vim.api.nvim_create_autocmd('BufWritePost', {
       return -- skip virtual/scratch/terminal buffers
     end
 
-    if not needs_to_make_snapshot_at_end_of_event then
-      needs_to_make_snapshot_at_end_of_event = true
-
-      vim.defer_fn(function()
-        needs_to_make_snapshot_at_end_of_event = false
-        nick.utils.jj_snapshot()
-      end, 0)
-    end
+    nick.utils.jj_snapshot()
   end,
 })
