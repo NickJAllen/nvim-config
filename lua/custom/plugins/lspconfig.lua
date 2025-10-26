@@ -61,7 +61,6 @@ return {
       --    That is to say, every time a new file is opened that is associated with
       --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
       --    function will be executed to configure the current buffer
-      local processed_clients = {}
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -80,34 +79,6 @@ return {
           local client = vim.lsp.get_client_by_id(event.data.client_id)
           if not client then
             return
-          end
-
-          -- Only run setup if we haven't processed this client yet
-          if not processed_clients[client.id] then
-            processed_clients[client.id] = true -- mark as processed
-
-            -- Your setup logic here, runs once per client
-            print('Setting up LSP client handlers to make snapshots after refactoring: ' .. client.name)
-
-            local orig_rename_handler = client.handlers['textDocument/rename']
-
-            -- Example: global keymaps or handlers
-            client.handlers['textDocument/rename'] = function(err, result, ctx, config)
-              if orig_rename_handler then
-                orig_rename_handler(err, result, ctx, config)
-              else
-                if err then
-                  vim.notify('Rename failed: ' .. err.message, vim.log.levels.ERROR)
-                  return
-                end
-
-                vim.lsp.util.apply_workspace_edit(result, client.offset_encoding)
-
-                vim.notify 'Rename completed successfully'
-              end
-
-              nick.utils.save_snapshot()
-            end
           end
 
           -- Rename the variable under your cursor.
