@@ -7,6 +7,9 @@ vim.keymap.set('i', '<C-s>', '<Esc>:write<CR>l')
 -- Save in normal mode with Ctrl-S
 vim.keymap.set('n', '<C-s>', ':write<CR>')
 
+-- Save all with Ctrl-Shift-S
+vim.keymap.set('n', '<C-S-S>', ':wall<CR>')
+
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -56,5 +59,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.hl.on_yank()
   end,
 })
+
+local nick = require 'nick'
+
+vim.keymap.set('n', '<leader>bc', ':bd<CR>', { desc = 'Close Buffer' })
+vim.keymap.set('n', '<leader>bo', nick.utils.close_other_unmodified_buffers, { desc = 'Close Other Unmodified Buffers' })
 
 -- vim: ts=2 sts=2 sw=2 et

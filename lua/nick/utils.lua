@@ -56,4 +56,27 @@ function M.reload_unmodified_buffers()
   end
 end
 
+function M.close_other_unmodified_buffers()
+  local current = vim.api.nvim_get_current_buf()
+
+  if vim.bo[current].buftype ~= '' then
+    return
+  end
+
+  local bufs = vim.api.nvim_list_bufs()
+
+  for _, buf in ipairs(bufs) do
+    print 'checking if should close buffer'
+    if buf ~= current then
+      local modified = vim.bo[buf].modified
+      local buftype = vim.bo[buf].buftype
+
+      -- only close normal, unmodified buffers
+      if not modified and buftype == '' then
+        vim.api.nvim_buf_delete(buf, {})
+      end
+    end
+  end
+end
+
 return M
