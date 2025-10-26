@@ -7,6 +7,8 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
+
 -- [[ Setting options ]]
 require 'options'
 
