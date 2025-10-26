@@ -26,11 +26,13 @@ function M.jj_snapshot()
   jj_snapshot_timer:start(100, 0, vim.schedule_wrap(make_jj_snapshot))
 end
 
+-- Called before we are about to perform an LSP refactoring
 function M.before_refactoring()
   print 'About to perform refactoring'
   M.save_all()
 end
 
+-- Called after an LSP refactoring has completed
 function M.after_refactoring_complete()
   print 'Refactoring complete'
   M.save_all()
@@ -56,6 +58,7 @@ function M.reload_unmodified_buffers()
   end
 end
 
+-- Closes other buffers than the current one that are normal files and not modified
 function M.close_other_unmodified_buffers()
   local current = vim.api.nvim_get_current_buf()
 
@@ -66,7 +69,6 @@ function M.close_other_unmodified_buffers()
   local bufs = vim.api.nvim_list_bufs()
 
   for _, buf in ipairs(bufs) do
-    print 'checking if should close buffer'
     if buf ~= current then
       local modified = vim.bo[buf].modified
       local buftype = vim.bo[buf].buftype
