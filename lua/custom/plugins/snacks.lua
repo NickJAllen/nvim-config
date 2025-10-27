@@ -6,6 +6,14 @@ return {
       -- your picker configuration comes here
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
+
+      sources = {
+        files = {
+          hidden = true,
+          ignored = true,
+          exclude = { '.git', '.jj', '.hg', '*.class', 'compileTransaction', '.cache', '*.idx' },
+        },
+      },
     },
     input = {},
   },
