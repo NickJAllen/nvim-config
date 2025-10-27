@@ -1,3 +1,5 @@
+local excluded_files = { '.git', '.jj', '.hg', '*.class', 'compileTransaction', '.cache', '*.idx' }
+
 return {
   'folke/snacks.nvim',
   ---@type snacks.Config
@@ -11,7 +13,12 @@ return {
         files = {
           hidden = true,
           ignored = true,
-          exclude = { '.git', '.jj', '.hg', '*.class', 'compileTransaction', '.cache', '*.idx' },
+          exclude = excluded_files,
+        },
+        grep = {
+          hidden = true,
+          ignored = true,
+          exclude = excluded_files,
         },
       },
     },
