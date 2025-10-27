@@ -76,11 +76,6 @@ return {
             end
           end
 
-          local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if not client then
-            return
-          end
-
           -- Rename the variable under your cursor.
           --  Most Language Servers support renaming across files, etc.
           map('grn', refactor(vim.lsp.buf.rename), '[R]e[n]ame')
@@ -110,7 +105,12 @@ return {
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
+
+          if not client then
+            return
+          end
+
+          if client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -137,10 +137,34 @@ return {
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
+          if client_supports_method(client, vim.lsp.protocol.Methods.textDocument_inlayHint, event.buf) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
+          end
+
+          if client.name == 'jdtls' then
+            map('<leader>dh', ':JdtUpdateHotcode<CR>', 'Hotswap Java Code')
+
+            local jdtls = require 'jdtls'
+
+            map('gro', function()
+              jdtls.organize_imports()
+            end, 'Organize Imports')
+
+            map('grv', function()
+              jdtls.extract_variable()
+            end, 'Extract Variable')
+
+            map('grc', function()
+              jdtls.extract_constant()
+            end, 'Extract Constant')
+
+            map('grm', function()
+              jdtls.extract_method()
+            end, 'Extract Method')
+
+            map('<leader>jb', ':JdtCompile<CR>', 'Build Java')
           end
         end,
       })
