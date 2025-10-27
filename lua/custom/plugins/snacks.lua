@@ -15,7 +15,7 @@ return {
           ignored = true,
           exclude = excluded_files,
         },
-        grep = {
+        files = {
           hidden = true,
           ignored = true,
           exclude = excluded_files,
@@ -326,7 +326,7 @@ return {
       desc = 'Undo History',
     },
     {
-      '<leader>uC',
+      '<leader>uc',
       function()
         Snacks.picker.colorschemes()
       end,
@@ -396,13 +396,6 @@ return {
         Snacks.picker.lsp_workspace_symbols()
       end,
       desc = 'LSP Workspace Symbols',
-    },
-    {
-      '<leader>st',
-      function()
-        Snacks.picker.colorschemes()
-      end,
-      desc = 'Color Themes',
     },
   },
 }
