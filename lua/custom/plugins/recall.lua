@@ -23,11 +23,11 @@ return {
         wshada = vim.fn.has 'nvim-0.10' == 0,
       }
 
-      vim.keymap.set('n', 'mm', recall.toggle, { noremap = true, silent = true })
-      vim.keymap.set('n', 'mn', recall.goto_next, { noremap = true, silent = true })
-      vim.keymap.set('n', 'mp', recall.goto_prev, { noremap = true, silent = true })
-      vim.keymap.set('n', 'mc', recall.clear, { noremap = true, silent = true })
-      vim.keymap.set('n', 'ml', require('recall.snacks').pick, { noremap = true, silent = true })
+      vim.keymap.set('n', 'mm', recall.toggle, { noremap = true, silent = true, desc = 'Toggle Mark' })
+      vim.keymap.set('n', 'mn', recall.goto_next, { noremap = true, silent = true, desc = 'Next Mark' })
+      vim.keymap.set('n', 'mp', recall.goto_prev, { noremap = true, silent = true, desc = 'Previous Mark' })
+      vim.keymap.set('n', 'mc', recall.clear, { noremap = true, silent = true, desc = 'Clear Marks' })
+      vim.keymap.set('n', 'ml', require('recall.snacks').pick, { noremap = true, silent = true, desc = 'List Marks' })
     end,
   },
 }
