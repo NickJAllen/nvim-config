@@ -27,11 +27,25 @@ return {
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     {
+      '<leader>dd',
+      function()
+        require('dap').continue()
+      end,
+      desc = 'Debug: Start/Continue',
+    },
+    {
       '<F5>',
       function()
         require('dap').continue()
       end,
       desc = 'Debug: Start/Continue',
+    },
+    {
+      '<leader>dl', -- this is Shift F5 on mac
+      function()
+        require('dap').run_last()
+      end,
+      desc = 'Debug: Run Last',
     },
     {
       '<F17>', -- this is Shift F5 on mac
@@ -41,11 +55,25 @@ return {
       desc = 'Debug: Run Last',
     },
     {
+      '<leader>dt',
+      function()
+        require('dap').terminate()
+      end,
+      desc = 'Debug: Terminate',
+    },
+    {
       '<F6>',
       function()
         require('dap').terminate()
       end,
       desc = 'Debug: Terminate',
+    },
+    {
+      '<leader>dn',
+      function()
+        require('dap').step_over()
+      end,
+      desc = 'Debug: Step Over',
     },
     {
       '<F10>',
@@ -55,11 +83,25 @@ return {
       desc = 'Debug: Step Over',
     },
     {
+      '<leader>di',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step Into',
+    },
+    {
       '<F11>',
       function()
         require('dap').step_into()
       end,
       desc = 'Debug: Step Into',
+    },
+    {
+      '<leader>do',
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step Out',
     },
     {
       '<F12>',
@@ -84,11 +126,18 @@ return {
     },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
+      '<leader>du',
+      function()
+        require('dapui').toggle()
+      end,
+      desc = 'Debug: Toggle UI.',
+    },
+    {
       '<F7>',
       function()
         require('dapui').toggle()
       end,
-      desc = 'Debug: See last session result.',
+      desc = 'Debug: Toggle UI.',
     },
   },
   config = function()
