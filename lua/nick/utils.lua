@@ -50,8 +50,8 @@ function M.reload_unmodified_buffers()
       if name ~= '' and vim.fn.filereadable(name) == 1 and bo.modifiable and not bo.modified then
         -- run checktime in that buffer's context to pick up external changes
         vim.api.nvim_buf_call(buf, function()
-          print('Reloading unmodified buffer ' .. name)
-          vim.cmd 'silent! checktime'
+          vim.cmd 'silent! edit!'
+          print('Reloaded unmodified buffer ' .. name)
         end)
       end
     end
