@@ -65,5 +65,6 @@ local nick = require 'nick'
 vim.keymap.set('n', '<leader>bc', ':bd<CR>', { desc = 'Close Buffer' })
 vim.keymap.set('n', '<leader>bo', nick.utils.close_other_unmodified_buffers, { desc = 'Close Other Unmodified Buffers' })
 vim.keymap.set('n', '<leader>bm', nick.utils.open_messages, { desc = 'Open Messages' })
+vim.keymap.set('n', '<leader>br', nick.utils.reload_unmodified_buffers, { desc = 'Reload Unmodified Buffers' })
 
 -- vim: ts=2 sts=2 sw=2 et
