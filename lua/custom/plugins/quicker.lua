@@ -7,10 +7,10 @@ return {
     ---@type quicker.SetupOptions
     opts = {},
     config = function()
-      vim.keymap.set('n', '<leader>q', function()
+      vim.keymap.set('n', '<leader>tQ', function()
         require('quicker').toggle()
       end, {
-        desc = 'Toggle quickfix',
+        desc = 'Toggle Quickfix list (Quicker)',
       })
       vim.keymap.set('n', '<leader>l', function()
         require('quicker').toggle { loclist = true }
