@@ -27,6 +27,7 @@ return {
     indent = {
       enabled = true,
     },
+    scroll = {},
   },
   keys = {
     -- Top Pickers & Explorer
