@@ -23,6 +23,10 @@ return {
       },
     },
     input = {},
+    animate = { enabled = true },
+    indent = {
+      enabled = true,
+    },
   },
   keys = {
     -- Top Pickers & Explorer

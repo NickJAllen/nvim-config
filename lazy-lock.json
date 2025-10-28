@@ -29,7 +29,7 @@
   "promise-async": { "branch": "main", "commit": "119e8961014c9bfaf1487bf3c2a393d254f337e2" },
   "quicker.nvim": { "branch": "master", "commit": "12a2291869a326424b1cbee937f4f80334433012" },
   "recall.nvim": { "branch": "main", "commit": "f45b9e697c674c6023b795e562544513af7e4ee1" },
-  "snacks.nvim": { "branch": "main", "commit": "52f30a198a19bf5da6aa95cc642bfbb99b9bbfbf" },
+  "snacks.nvim": { "branch": "main", "commit": "c91e23060c73432cb25f99d6ed632c22fce87d88" },
   "telescope-hierarchy.nvim": { "branch": "feature/types", "commit": "34a3716cd50ea2160e7ed550b9a7743ec57e66e9" },
   "telescope.nvim": { "branch": "master", "commit": "b4da76be54691e854d3e0e02c36b0245f945c2c7" },
   "todo-comments.nvim": { "branch": "main", "commit": "19d461ddd543e938eb22505fb03fa878800270b6" },

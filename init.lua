@@ -9,6 +9,9 @@ vim.g.have_nerd_font = true
 
 vim.g.neovide_input_macos_option_key_is_meta = 'only_left'
 
+vim.g.snacks_animate = true
+vim.g.snacks_indent = true
+
 -- [[ Setting options ]]
 require 'options'
 
