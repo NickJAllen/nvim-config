@@ -1,5 +1,6 @@
 return {
   'jmacadie/telescope-hierarchy.nvim',
+  branch = 'feature/types',
   dependencies = {
     {
       'nvim-telescope/telescope.nvim',

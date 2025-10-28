@@ -34,6 +34,11 @@ return {
         '<cmd>Trouble qflist toggle<cr>',
         desc = 'Toggle Quickfix List (Trouble)',
       },
+      {
+        '<leader>tt',
+        '<cmd>Trouble todo toggle<cr>',
+        desc = 'Toggle Todo List (Trouble)',
+      },
     },
   },
 }
