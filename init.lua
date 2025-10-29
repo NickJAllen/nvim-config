@@ -26,7 +26,8 @@ require 'lazy-bootstrap'
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
 
-vim.cmd 'colorscheme tokyonight-night'
+-- vim.cmd 'colorscheme tokyonight-night'
+vim.cmd 'colorscheme kanagawa'
 
 vim.lsp.enable 'jdtls'
 vim.lsp.enable 'clangd'
