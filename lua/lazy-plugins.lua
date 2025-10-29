@@ -1,14 +1,3 @@
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -18,8 +7,6 @@ require('lazy').setup({
 }, {
 
   dev = {
-    -- Directory where you store your local plugin projects. If a function is used,
-    -- the plugin directory (e.g. `~/projects/plugin-name`) must be returned.
     ---@type string | fun(plugin: LazyPlugin): string
     path = '~/dev/neovim-plugins',
     ---@type string[] plugins that match these patterns will use your local versions instead of being fetched from GitHub
@@ -28,8 +15,6 @@ require('lazy').setup({
   },
 
   ui = {
-    -- If you are using a Nerd Font: set icons to an empty table which will use the
-    -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',
       config = '🛠',
