@@ -1,5 +1,6 @@
 local M = {}
 
+local log = require('plenary.log').new { plugin = 'nick-utils', level = 'info' }
 local jj_snapshot_timer = vim.uv.new_timer()
 
 local function make_jj_snapshot()
@@ -7,13 +8,13 @@ local function make_jj_snapshot()
     jj_snapshot_timer:stop()
   end
 
-  vim.print 'Making snapshot using Jujutsu'
+  log.info 'Making snapshot using Jujutsu'
   vim.fn.system 'jj status'
 end
 
 -- Saves all files
 function M.save_all()
-  vim.print 'Saving all files'
+  log.info 'Saving all files'
   vim.cmd 'wall'
   make_jj_snapshot()
 end
@@ -33,13 +34,13 @@ end
 
 -- Called before we are about to perform an LSP refactoring
 function M.before_refactoring()
-  print 'About to perform refactoring'
+  log.info 'About to perform refactoring'
   M.save_all()
 end
 
 -- Called after an LSP refactoring has completed
 function M.after_refactoring_complete()
-  print 'Refactoring complete'
+  log.info 'Refactoring complete'
   M.save_all()
   M.reload_unmodified_buffers()
 end
@@ -56,7 +57,7 @@ function M.reload_unmodified_buffers()
         -- run checktime in that buffer's context to pick up external changes
         vim.api.nvim_buf_call(buf, function()
           vim.cmd 'silent! edit!'
-          print('Reloaded unmodified buffer ' .. name)
+          log.info('Reloaded unmodified buffer ' .. name)
         end)
       end
     end

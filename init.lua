@@ -15,16 +15,17 @@ vim.g.snacks_indent = true
 -- [[ Setting options ]]
 require 'options'
 
--- [[ Basic Keymaps ]]
-require 'keymaps'
-
-require 'autocommands'
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 require 'lazy-bootstrap'
 
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
+
+require 'autocommands'
+
+-- [[ Basic Keymaps ]]
+require 'keymaps'
+
 
 -- vim.cmd 'colorscheme tokyonight-night'
 -- vim.cmd 'colorscheme kanagawa'

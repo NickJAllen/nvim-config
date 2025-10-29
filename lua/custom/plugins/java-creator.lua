@@ -36,6 +36,7 @@ return {
     dependencies = {
       { 'nvim-telescope/telescope.nvim', optional = true },
       { 'rcarriga/nvim-notify', optional = true },
+      { 'nvim-lua/plenary.nvim' },
     },
   },
 }
