@@ -3,7 +3,7 @@ local M = {}
 local jj_snapshot_timer = vim.uv.new_timer()
 
 local function make_jj_snapshot()
-  if jj_snapshot_timer:is_active() then
+  if jj_snapshot_timer and jj_snapshot_timer:is_active() then
     jj_snapshot_timer:stop()
   end
 
@@ -19,6 +19,11 @@ function M.save_all()
 end
 
 function M.jj_snapshot()
+  if not jj_snapshot_timer then
+    make_jj_snapshot()
+    return
+  end
+
   if jj_snapshot_timer:is_active() then
     jj_snapshot_timer:stop()
   end
@@ -90,15 +95,16 @@ end
 
 function M.delete_buffer_and_file()
   local bufnr = vim.api.nvim_get_current_buf()
+  local buftype = vim.bo[bufnr].buftype
   local filepath = vim.api.nvim_buf_get_name(bufnr)
 
   -- Delete the file if it exists
-  if filepath ~= '' and vim.loop.fs_stat(filepath) then
+  if filepath ~= '' and buftype == '' and vim.loop.fs_stat(filepath) and vim.fn.confirm('Really delete ' .. filepath .. '?', '&Yes\n&No') then
+    -- Delete the buffer
+    vim.api.nvim_buf_delete(bufnr, { force = true })
+
     os.remove(filepath)
   end
-
-  -- Delete the buffer
-  vim.api.nvim_buf_delete(bufnr, { force = true })
 end
 
 function M.open_directory_in_oil()
@@ -131,8 +137,8 @@ function M.open_directory_in_oil()
           items = items,
           layout = { preset = 'select' },
           format = 'text',
-          confirm = function(picker, item)
-            picker:close()
+          confirm = function(p, item)
+            p:close()
             vim.cmd('Oil ' .. item.text)
           end,
         }
