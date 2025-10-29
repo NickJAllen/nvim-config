@@ -47,4 +47,44 @@ vim.keymap.set('n', '<leader>bo', nick.utils.close_other_unmodified_buffers, { d
 vim.keymap.set('n', '<leader>bm', nick.utils.open_messages, { desc = 'Open Messages' })
 vim.keymap.set('n', '<leader>br', nick.utils.reload_unmodified_buffers, { desc = 'Reload Unmodified Buffers' })
 
--- vim: ts=2 sts=2 sw=2 et
+local function open_directory_in_oil()
+  local picker = require 'snacks.picker'
+
+  local find_command = {
+    'fd',
+    '--type',
+    'd',
+    '--color',
+    'never',
+  }
+
+  vim.fn.jobstart(find_command, {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      if data then
+        local filtered = vim.tbl_filter(function(el)
+          return el ~= ''
+        end, data)
+
+        local items = {}
+        for _, v in ipairs(filtered) do
+          table.insert(items, { text = v })
+        end
+
+        ---@module 'snacks'
+        picker.pick {
+          source = 'directories',
+          items = items,
+          layout = { preset = 'select' },
+          format = 'text',
+          confirm = function(picker, item)
+            picker:close()
+            vim.cmd('Oil ' .. item.text)
+          end,
+        }
+      end
+    end,
+  })
+end
+
+vim.keymap.set('n', '<leader>s.', open_directory_in_oil, { desc = 'Open directory in Oil' }) -- vim: ts=2 sts=2 sw=2 et
