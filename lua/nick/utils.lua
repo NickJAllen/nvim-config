@@ -88,4 +88,57 @@ function M.open_messages()
   vim.api.nvim_set_current_buf(buf)
 end
 
+function M.delete_buffer_and_file()
+  local bufnr = vim.api.nvim_get_current_buf()
+  local filepath = vim.api.nvim_buf_get_name(bufnr)
+
+  -- Delete the file if it exists
+  if filepath ~= '' and vim.loop.fs_stat(filepath) then
+    os.remove(filepath)
+  end
+
+  -- Delete the buffer
+  vim.api.nvim_buf_delete(bufnr, { force = true })
+end
+
+function M.open_directory_in_oil()
+  local picker = require 'snacks.picker'
+
+  local find_command = {
+    'fd',
+    '--type',
+    'd',
+    '--color',
+    'never',
+  }
+
+  vim.fn.jobstart(find_command, {
+    stdout_buffered = true,
+    on_stdout = function(_, data)
+      if data then
+        local filtered = vim.tbl_filter(function(el)
+          return el ~= ''
+        end, data)
+
+        local items = {}
+        for _, v in ipairs(filtered) do
+          table.insert(items, { text = v })
+        end
+
+        ---@module 'snacks'
+        picker.pick {
+          source = 'directories',
+          items = items,
+          layout = { preset = 'select' },
+          format = 'text',
+          confirm = function(picker, item)
+            picker:close()
+            vim.cmd('Oil ' .. item.text)
+          end,
+        }
+      end
+    end,
+  })
+end
+
 return M
