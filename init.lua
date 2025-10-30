@@ -26,9 +26,10 @@ require 'autocommands'
 -- [[ Basic Keymaps ]]
 require 'keymaps'
 
+local colorscheme = 'catppuccin-mocha'
 -- vim.cmd 'colorscheme tokyonight-night'
 -- vim.cmd 'colorscheme kanagawa'
-vim.cmd 'colorscheme catppuccin-mocha'
+vim.cmd('colorscheme ' .. colorscheme)
 
 vim.lsp.config('jdtls', {
   settings = {
@@ -41,7 +42,7 @@ vim.lsp.config('jdtls', {
         cleanup = true,
       },
       cleanup = {
-        actionsOnSave = { 'addOverride', 'addFinalModifier' },
+        actionsOnSave = { 'addOverride', 'addFinalModifier', 'instanceofPatternMatch', 'lambdaExpression', 'switchExpression' },
       },
     },
   },

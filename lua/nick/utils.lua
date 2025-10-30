@@ -8,13 +8,13 @@ local function make_jj_snapshot()
     jj_snapshot_timer:stop()
   end
 
-  log.info 'Making snapshot using Jujutsu'
+  log.trace 'Making snapshot using Jujutsu'
   vim.fn.system 'jj status'
 end
 
 -- Saves all files
 function M.save_all()
-  log.info 'Saving all files'
+  log.trace 'Saving all files'
   vim.cmd 'wall'
   make_jj_snapshot()
 end
@@ -34,13 +34,13 @@ end
 
 -- Called before we are about to perform an LSP refactoring
 function M.before_refactoring()
-  log.info 'About to perform refactoring'
+  log.trace 'About to perform refactoring'
   M.save_all()
 end
 
 -- Called after an LSP refactoring has completed
 function M.after_refactoring_complete()
-  log.info 'Refactoring complete'
+  log.trace 'Refactoring complete'
   M.save_all()
   M.reload_unmodified_buffers()
 end
@@ -57,7 +57,7 @@ function M.reload_unmodified_buffers()
         -- run checktime in that buffer's context to pick up external changes
         vim.api.nvim_buf_call(buf, function()
           vim.cmd 'silent! edit!'
-          log.info('Reloaded unmodified buffer ' .. name)
+          log.trace('Reloaded unmodified buffer ' .. name)
         end)
       end
     end
