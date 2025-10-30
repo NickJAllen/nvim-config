@@ -27,8 +27,8 @@ require 'autocommands'
 require 'keymaps'
 
 local colorscheme = 'catppuccin-mocha'
--- vim.cmd 'colorscheme tokyonight-night'
--- vim.cmd 'colorscheme kanagawa'
+-- local colorscheme = 'tokyonight-night'
+-- local colorscheme = 'kanagawa'
 vim.cmd('colorscheme ' .. colorscheme)
 
 vim.lsp.config('jdtls', {
