@@ -26,10 +26,26 @@ require 'autocommands'
 -- [[ Basic Keymaps ]]
 require 'keymaps'
 
-
 -- vim.cmd 'colorscheme tokyonight-night'
 -- vim.cmd 'colorscheme kanagawa'
 vim.cmd 'colorscheme catppuccin-mocha'
+
+vim.lsp.config('jdtls', {
+  settings = {
+    java = {
+      -- Custom eclipse.jdt.ls options go here
+      -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
+
+      saveActions = {
+        organizeImports = true,
+        cleanup = true,
+      },
+      cleanup = {
+        actionsOnSave = { 'addOverride', 'addFinalModifier' },
+      },
+    },
+  },
+})
 
 vim.lsp.enable 'jdtls'
 vim.lsp.enable 'clangd'
