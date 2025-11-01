@@ -38,11 +38,11 @@ vim.lsp.config('jdtls', {
       -- https://github.com/eclipse-jdtls/eclipse.jdt.ls/wiki/Running-the-JAVA-LS-server-from-the-command-line#initialize-request
 
       saveActions = {
-        organizeImports = true,
+        organizeImports = false,
         cleanup = true,
       },
       cleanup = {
-        actionsOnSave = { 'addOverride', 'addFinalModifier', 'instanceofPatternMatch', 'lambdaExpression', 'switchExpression' },
+        actionsOnSave = { 'addOverride', 'addFinalModifier', 'instanceofPatternMatch', 'organizeImports', 'lambdaExpression', 'switchExpression' },
       },
     },
   },
